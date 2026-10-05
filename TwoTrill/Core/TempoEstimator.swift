@@ -12,7 +12,7 @@ enum TempoEstimator {
         guard env.count > Int(env.rate * 4), let coarse = coarseTempo(env, minBPM: minBPM, maxBPM: maxBPM) else {
             return nil
         }
-        let smooth = smoothed(env.values, radius: 2)
+        let smooth = phaseSignal(env)
 
         var best = (bpm: coarse, phase: 0.0, score: -Double.infinity)
         var bpm = coarse * 0.97
@@ -35,9 +35,19 @@ enum TempoEstimator {
 
     /// Keeps a user-chosen tempo and re-fits only the beat phase and bar start.
     static func fitGrid(_ env: OnsetEnvelope, bpm: Double) -> BeatGrid {
-        let smooth = smoothed(env.values, radius: 2)
+        let smooth = phaseSignal(env)
         let phase = bestPhase(smooth, rate: env.rate, bpm: bpm).phase
         return makeGrid(env, bpm: bpm, phaseFrame: phase)
+    }
+
+    /// What the beat comb is matched against: all onsets plus the kick-drum range again, so the
+    /// beats land on kicks and snares rather than on off-beat hi-hats, which are broadband and
+    /// would otherwise score just as high.
+    static func phaseSignal(_ env: OnsetEnvelope) -> [Float] {
+        let all = smoothed(env.values, radius: 2)
+        guard env.low.count == env.values.count else { return all }
+        let low = smoothed(env.low, radius: 2)
+        return zip(all, low).map { $0 + $1 }
     }
 
     static func coarseTempo(_ env: OnsetEnvelope, minBPM: Double, maxBPM: Double) -> Double? {
