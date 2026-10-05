@@ -10,62 +10,15 @@ struct HomeView: View {
     var body: some View {
         @Bindable var router = router
         NavigationStack(path: $router.path) {
-            List {
-                Section {
-                    VStack(spacing: 20) {
-                        Text("2trill")
-                            .font(.system(size: 64, weight: .black, design: .rounded))
-                            .foregroundStyle(LinearGradient(colors: [.pink, .orange], startPoint: .leading, endPoint: .trailing))
-                        Text("Load a song, film a few takes, and get a music video cut on the beat.")
-                            .multilineTextAlignment(.center)
-                            .foregroundStyle(.secondary)
-                        Button {
-                            isPicking = true
-                        } label: {
-                            Label("Load audio", systemImage: "waveform.badge.plus")
-                                .font(.title3.bold())
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 10)
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .controlSize(.large)
-                        Text("MP3, M4A or WAV from the Files app")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding(.vertical, 24)
-                    .frame(maxWidth: .infinity)
-                    .listRowBackground(Color.clear)
-                }
-
-                if !store.projects.isEmpty {
-                    Section("Recent") {
-                        ForEach(store.projects) { project in
-                            Button {
-                                open(project)
-                            } label: {
-                                ProjectRow(project: project, isAnalyzing: store.analyzing.contains(project.id))
-                            }
-                            .foregroundStyle(.primary)
-                        }
-                        .onDelete { offsets in
-                            offsets.map { store.projects[$0] }.forEach(store.delete)
-                        }
-                    }
-                }
+            VStack(spacing: 0) {
+                AdBanner()
+                homeList
             }
             .navigationDestination(for: Route.self) { route in
                 destination(route)
             }
-            .fileImporter(isPresented: $isPicking, allowedContentTypes: [.mp3, .audio]) { result in
-                switch result {
-                case .success(let url):
-                    if let id = store.createProject(withSongAt: url) { router.path = [.clip(id)] }
-                case .failure(let error):
-                    store.errorMessage = error.localizedDescription
-                }
-            }
         }
+        .task { await AdsSetup.start() }
         .alert("Something went wrong", isPresented: Binding(
             get: { store.errorMessage != nil },
             set: { if !$0 { store.errorMessage = nil } }
@@ -73,6 +26,61 @@ struct HomeView: View {
             Button("OK", role: .cancel) {}
         } message: {
             Text(store.errorMessage ?? "")
+        }
+    }
+
+    private var homeList: some View {
+        List {
+            Section {
+                VStack(spacing: 20) {
+                    Text("2trill")
+                        .font(.system(size: 64, weight: .black, design: .rounded))
+                        .foregroundStyle(LinearGradient(colors: [.pink, .orange], startPoint: .leading, endPoint: .trailing))
+                    Text("Load a song, film a few takes, and get a music video cut on the beat.")
+                        .multilineTextAlignment(.center)
+                        .foregroundStyle(.secondary)
+                    Button {
+                        isPicking = true
+                    } label: {
+                        Label("Load audio", systemImage: "waveform.badge.plus")
+                            .font(.title3.bold())
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 10)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    Text("MP3, M4A or WAV from the Files app")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+                .padding(.vertical, 24)
+                .frame(maxWidth: .infinity)
+                .listRowBackground(Color.clear)
+            }
+
+            if !store.projects.isEmpty {
+                Section("Recent") {
+                    ForEach(store.projects) { project in
+                        Button {
+                            open(project)
+                        } label: {
+                            ProjectRow(project: project, isAnalyzing: store.analyzing.contains(project.id))
+                        }
+                        .foregroundStyle(.primary)
+                    }
+                    .onDelete { offsets in
+                        offsets.map { store.projects[$0] }.forEach(store.delete)
+                    }
+                }
+            }
+        }
+        .fileImporter(isPresented: $isPicking, allowedContentTypes: [.mp3, .audio]) { result in
+            switch result {
+            case .success(let url):
+                if let id = store.createProject(withSongAt: url) { router.path = [.clip(id)] }
+            case .failure(let error):
+                store.errorMessage = error.localizedDescription
+            }
         }
     }
 

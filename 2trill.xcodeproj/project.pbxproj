@@ -16,6 +16,10 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXBuildFile section */
+		BC0000000000000000000032 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = BC0000000000000000000031 /* GoogleMobileAds */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		BC0000000000000000000011 /* TwoTrill.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TwoTrill.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC0000000000000000000021 /* TwoTrillTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TwoTrillTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -39,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC0000000000000000000032 /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +95,7 @@
 			);
 			name = TwoTrill;
 			packageProductDependencies = (
+				BC0000000000000000000031 /* GoogleMobileAds */,
 			);
 			productName = TwoTrill;
 			productReference = BC0000000000000000000011 /* TwoTrill.app */;
@@ -146,6 +152,9 @@
 			);
 			mainGroup = BC0000000000000000000002;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				BC0000000000000000000030 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = BC0000000000000000000003 /* Products */;
 			projectDirPath = "";
@@ -291,6 +300,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TwoTrill/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "2trill";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSCameraUsageDescription = "2trill films your takes while the song plays.";
@@ -324,6 +334,7 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TwoTrill/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "2trill";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.photography";
 				INFOPLIST_KEY_NSCameraUsageDescription = "2trill films your takes while the song plays.";
@@ -384,6 +395,25 @@
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BC0000000000000000000030 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BC0000000000000000000031 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BC0000000000000000000030 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCConfigurationList section */
 		BC0000000000000000000004 /* Build configuration list for PBXProject "TwoTrill" */ = {

@@ -32,6 +32,8 @@ struct EditorView: View {
 
     var body: some View {
         VStack(spacing: 16) {
+            AdBanner()
+                .padding(.horizontal, -16)
             ZStack {
                 Color.black
                 VideoPlayer(player: player)
