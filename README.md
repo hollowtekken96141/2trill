@@ -86,7 +86,7 @@ A banner sits at the top of the Home and Edit screens (never over the camera). I
 - **Now:** `mode = .house`. The banner is a *house ad*, our own promo linking to
   [soundcloud.com/citadell](https://soundcloud.com/citadell). No ad network is contacted.
 - **Later:** once AdMob has approved the app, set `mode = .adMob(unitID: "ca-app-pub-…/…")` and
-  put your AdMob app ID in `TwoTrill/Info.plist` under `GADApplicationIdentifier`. Google's
+  put your AdMob app ID in `Info.plist` under `GADApplicationIdentifier`. Google's
   banner then fills the slot; the house ad stays as the fallback whenever no ad is available. To
   try AdMob before approval, use Google's sample banner unit `ca-app-pub-3940256099942544/2435281174`
   (where its test ads link to is up to Google and can't be changed).
