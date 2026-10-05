@@ -78,6 +78,32 @@ The project uses Xcode 16 folder-synced groups, so any `.swift` file you add und
 
 Run the unit tests (cut planner and tempo detection) with **⌘U**.
 
+## Installing without a Mac
+
+Every push to `main` runs the **iOS** workflow on GitHub's Mac runners
+(`.github/workflows/ios.yml`). It does two things:
+
+- **Build and test:** compiles the app and runs the unit tests in the iOS Simulator. A red ✗ on
+  the commit means a compile error or a failing test; open the run to see which.
+- **Unsigned .ipa:** builds a release copy of the app for iPhone and attaches it to the run as
+  the `2trill-unsigned-ipa` artifact (kept for 30 days).
+
+To put that build on your iPhone from a Windows PC:
+
+1. Open the repo's **Actions** tab, click the latest green run, and download
+   `2trill-unsigned-ipa`. Unzip it to get `2trill-unsigned.ipa`.
+2. Install [iTunes from Apple's site](https://support.apple.com/en-us/HT210384) (not the
+   Microsoft Store version) and [Sideloadly](https://sideloadly.io).
+3. Plug in the iPhone, open Sideloadly, drag the `.ipa` in, enter your Apple ID and press
+   **Start**. Sideloadly signs the app with your Apple ID and installs it.
+4. On the iPhone, go to **Settings → General → VPN & Device Management**, tap your Apple ID and
+   **Trust** it. Then open 2trill.
+
+With a free Apple ID the app stops opening after 7 days; repeat step 3 to renew it. A paid Apple
+Developer account ($99/year) extends that to a year and lets up to 100 devices install it.
+
+You can also start a build by hand from the Actions tab with **Run workflow**.
+
 ## Project layout
 
 ```
